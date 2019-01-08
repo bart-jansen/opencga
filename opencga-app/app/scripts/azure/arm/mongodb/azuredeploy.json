@@ -81,7 +81,7 @@
                 "count": "[parameters('clusterSize')]",
                 "input": {
                    "fqdn": "[concat(variables('dnsPrefix'),copyIndex('nodes'),'.',parameters('location'),'.cloudapp.azure.com')]",
-                   "cloud-init": ["#cloud-config",
+                   "cloudinit": ["#cloud-config",
                     "",
                     "write_files:",
                     " -  encoding: gzip",
@@ -101,7 +101,7 @@
                     "",
                     "runcmd:",
                     " - 'apt-get update'",
-                    " -  VM_INDEX=', copyIndex(), ' CLUSTER_SIZE=', parameters('clusterSize'), ' CERT_EMAIL=', parameters('certificateEmail'),' MONGODB_USERNAME=', parameters('mongoDBUsername'),' MONGODB_PASSWORD=', parameters('mongoDBPassword'),' APP_DNS_NAME=', variables('dnsPrefix'),copyIndex('nodes'),'.',parameters('location'),'.cloudapp.azure.com' /bin/bash /opt/installmongodb.sh"
+                    "concat(' - VM_INDEX=', copyIndex(), ' CLUSTER_SIZE=', parameters('clusterSize'), ' CERT_EMAIL=', parameters('certificateEmail'),' MONGODB_USERNAME=', parameters('mongoDBUsername'),' MONGODB_PASSWORD=', parameters('mongoDBPassword'),' APP_DNS_NAME=', variables('dnsPrefix'),copyIndex('nodes'),'.',parameters('location'),'.cloudapp.azure.com' /bin/bash /opt/installmongodb.sh')"
                     ]
                 }
             }
@@ -112,7 +112,7 @@
         {
           "namespace": "mongo",
           "members": {
-            "cloud-init-transform": {
+            "cloudinittransform": {
               "parameters": [
                 {
                   "name": "cloud-init",
@@ -121,7 +121,7 @@
               ],
               "output": {
                 "type": "string",
-                "value": "[base64(replace(replace(replace(string(parameters('cloud-init')),'\",\"','\n'),'[\"',''),'\"]',''))]",
+                "value": "[base64(replace(replace(replace(string(parameters('cloud-init')),'\",\"','\n'),'[\"',''),'\"]',''))]"
               }
             }
           }
@@ -213,7 +213,7 @@
                 },
                 "osProfile": {
                     "computerName": "[concat(variables('vmName'), copyIndex())]",
-                    "customData": "[mongo.cloud-init-transform(variables('nodes')[copyIndex()].cloud-init)]",
+                    "customData": "[mongo.cloudinittransform(variables('nodes')[copyIndex()].cloudinit)]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
