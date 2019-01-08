@@ -196,7 +196,7 @@
                 },
                 "osProfile": {
                     "computerName": "[concat(variables('vmName'), copyIndex())]",
-                    "customData": "[base64(replace(replace(replace(replace(string(variables('cloudinit')),'#VM_INDEX#',copyIndex()),'\",\"','\n'),'[\"',''),'\"]',''))]",
+                    "customData": "[base64(replace(replace(replace(replace(string(variables('cloudinit')),'#VM_INDEX#',string(copyIndex())),'\",\"','\n'),'[\"',''),'\"]',''))]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
