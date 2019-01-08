@@ -109,29 +109,7 @@
         
          
     },
-    "functions": [
-        {
-          "namespace": "mongo",
-          "members": {
-            "cloudinittransform": {
-              "parameters": [
-                {
-                  "name": "cloudinit",
-                  "type": "array"
-                },
-                {
-                    "name": "index",
-                    "type": "string"
-                  }
-              ],
-              "output": {
-                "type": "string",
-                "value": "[base64(replace(replace(replace(replace(string(variables('cloud-init')),'#VM_INDEX#',parameters('index')),'\",\"','\n'),'[\"',''),'\"]',''))]"
-              }
-            }
-          }
-        }
-      ],
+   
     "resources": [
         {
             "apiVersion": "2017-10-01",
@@ -218,7 +196,7 @@
                 },
                 "osProfile": {
                     "computerName": "[concat(variables('vmName'), copyIndex())]",
-                    "customData": "[mongo.cloudinittransform(variables('cloudinit'),string(copyIndex()))]",
+                    "customData": "[base64(replace(replace(replace(replace(string(variables('cloudinit')),'#VM_INDEX#',copyIndex()),'\",\"','\n'),'[\"',''),'\"]',''))]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
