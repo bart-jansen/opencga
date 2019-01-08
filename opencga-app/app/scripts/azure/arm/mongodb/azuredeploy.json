@@ -101,7 +101,7 @@
                     "",
                     "runcmd:",
                     " - 'apt-get update'",
-                    "concat(' - VM_INDEX=', copyIndex(), ' CLUSTER_SIZE=', parameters('clusterSize'), ' CERT_EMAIL=', parameters('certificateEmail'),' MONGODB_USERNAME=', parameters('mongoDBUsername'),' MONGODB_PASSWORD=', parameters('mongoDBPassword'),' APP_DNS_NAME=', variables('dnsPrefix'),copyIndex('nodes'),'.',parameters('location'),'.cloudapp.azure.com' /bin/bash /opt/installmongodb.sh')"
+                    "[concat(' - VM_INDEX=', copyIndex(), ' CLUSTER_SIZE=', parameters('clusterSize'), ' CERT_EMAIL=', parameters('certificateEmail'),' MONGODB_USERNAME=', parameters('mongoDBUsername'),' MONGODB_PASSWORD=', parameters('mongoDBPassword'),' APP_DNS_NAME=', variables('dnsPrefix'),copyIndex('nodes'),'.',parameters('location'),'.cloudapp.azure.com', ' /bin/bash /opt/installmongodb.sh')]"
                     ]
                 }
             }
