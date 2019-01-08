@@ -126,7 +126,7 @@
               ],
               "output": {
                 "type": "string",
-                "value": "[base64(replace(replace(replace(replace(string(parameters('cloud-init')),'#VM_INDEX',parameters('index')),'\",\"','\n'),'[\"',''),'\"]',''))]"
+                "value": "[base64(replace(replace(replace(replace(string(parameters('cloud-init')),'#VM_INDEX#',parameters('index')),'\",\"','\n'),'[\"',''),'\"]',''))]"
               }
             }
           }
