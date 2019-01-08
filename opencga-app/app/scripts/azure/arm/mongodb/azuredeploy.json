@@ -77,14 +77,56 @@
         "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
         "copy": [
             {
-                "name": "dnsNames",
+                "name": "nodes",
                 "count": "[parameters('clusterSize')]",
                 "input": {
-                   "fqdn": "[concat(variables('dnsPrefix'),copyIndex('dnsNames'),'.',parameters('location'),'.cloudapp.azure.com')]"
+                   "fqdn": "[concat(variables('dnsPrefix'),copyIndex('nodes'),'.',parameters('location'),'.cloudapp.azure.com')]",
+                   "cloud-init": ["#cloud-config",
+                    "",
+                    "write_files:",
+                    " -  encoding: gzip",
+                    "    content: !!binary |",
+                    "        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",
+                    "    path: /opt/installmongodb.sh",
+                    "    permissions: \"0744\"",
+                    " -  encoding: gzip",
+                    "    content: !!binary |",
+                    "        H4sIAG6sIFwAA5WRz0oDMRDG73mKcbsHFWvaiwehB6EIHvzzCkk62wSzyZKMW4r67iZmS6Oo4CWBmfl+38fM7IRL47gUUTM2gzV2xiGMIhghLUa2fry/uXtYtcvcDehwBwoDsfxIT6WUe8r3MkutIIwEFimiU2E/EHQmkaDzAXrvtj5PJ5fNYbR7sVZpYdz55YA9S7xUvU3FVXtqI8xH4EiKV0QugtJmRN60JV/Dv0LgDUgYC3MHyzOGSnto2iO4+R5hCGZ8xn0d4CmV/hOgRvxhn7FNvS/yZSuf1koQvFZBLyrVe6YiliwxWn6UJVzEdAuz1VQtuiB17zdwtVj8JEzJdq4Mb+T19P/iEFIOEWi6YcQwGoWT9tBkH9+uPZhPAgAA",
+                    "    path: /opt/renew_mongo_cert.sh",
+                    "    permissions: \"0744\"",
+                    "",
+                    "",
+                    "package_upgrade: true",
+                    "package_reboot_if_required: true",
+                    "",
+                    "runcmd:",
+                    " - 'apt-get update'",
+                    " -  VM_INDEX=', copyIndex(), ' CLUSTER_SIZE=', parameters('clusterSize'), ' CERT_EMAIL=', parameters('certificateEmail'),' MONGODB_USERNAME=', parameters('mongoDBUsername'),' MONGODB_PASSWORD=', parameters('mongoDBPassword'),' APP_DNS_NAME=', variables('dnsPrefix'),copyIndex('nodes'),'.',parameters('location'),'.cloudapp.azure.com' /bin/bash /opt/installmongodb.sh"
+                    ]
                 }
             }
         ]
+         
     },
+    "functions": [
+        {
+          "namespace": "mongo",
+          "members": {
+            "uniqueName": {
+              "parameters": [
+                {
+                  "name": "cloud-init-transform",
+                  "type": "string"
+                }
+              ],
+              "output": {
+                "type": "string",
+                "value": "[base64(replace(replace(replace(string(parameters('cloud-init')),'\",\"','\n'),'[\"',''),'\"]',''))]",
+              }
+            }
+          }
+        }
+      ],
     "resources": [
         {
             "apiVersion": "2017-10-01",
@@ -171,7 +213,7 @@
                 },
                 "osProfile": {
                     "computerName": "[concat(variables('vmName'), copyIndex())]",
-                    "customData": "[base64('#cloud-config\n\nwrite_files:\n -  encoding: gzip\n    content: !!binary |\n        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\n    path: /opt/installmongodb.sh\n    permissions: \"0744\"\n -  encoding: gzip\n    content: !!binary |\n        H4sIAG6sIFwAA5WRz0oDMRDG73mKcbsHFWvaiwehB6EIHvzzCkk62wSzyZKMW4r67iZmS6Oo4CWBmfl+38fM7IRL47gUUTM2gzV2xiGMIhghLUa2fry/uXtYtcvcDehwBwoDsfxIT6WUe8r3MkutIIwEFimiU2E/EHQmkaDzAXrvtj5PJ5fNYbR7sVZpYdz55YA9S7xUvU3FVXtqI8xH4EiKV0QugtJmRN60JV/Dv0LgDUgYC3MHyzOGSnto2iO4+R5hCGZ8xn0d4CmV/hOgRvxhn7FNvS/yZSuf1koQvFZBLyrVe6YiliwxWn6UJVzEdAuz1VQtuiB17zdwtVj8JEzJdq4Mb+T19P/iEFIOEWi6YcQwGoWT9tBkH9+uPZhPAgAA\n    path: /opt/renew_mongo_cert.sh\n    permissions: \"0744\"\n\n')]",
+                    "customData": "[mongo.cloud-init-transform(variables('nodes')[copyIndex()].cloud-init)]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
@@ -188,32 +230,8 @@
                 }
             },
             "tags": {}
-        },
-        {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('vmName'), copyIndex(), '/configureagent')]",
-            "apiVersion": "2017-12-01",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), copyIndex())]"
-            ],
-            "copy": {
-                "name": "mongo-rs-ca",
-                "count": "[parameters('clusterSize')]"
-            },
-            "properties": {
-                "publisher": "Microsoft.Azure.Extensions",
-                "type": "CustomScript",
-                "typeHandlerVersion": "2.0",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                    "timestamp": 4
-                },
-                "protectedSettings": {
-                    "commandToExecute": "[concat(' VM_INDEX=', copyIndex(), ' CLUSTER_SIZE=', parameters('clusterSize'), ' CERT_EMAIL=', parameters('certificateEmail'),' MONGODB_USERNAME=', parameters('mongoDBUsername'),' MONGODB_PASSWORD=', parameters('mongoDBPassword'),' APP_DNS_NAME=', reference(resourceId('Microsoft.Network/publicIPAddresses',concat(variables('publicIPAddressName'),copyIndex())),'2017-10-01').dnsSettings.fqdn, ' /bin/bash /opt/installmongodb.sh')]"
-                }
-            }
         }
+      
     ],
     "outputs": {
         "mongoDBUser": {
@@ -229,7 +247,7 @@
             "type": "int"
         },
         "dnsNames": {
-            "value": "[variables('dnsNames')]",
+            "value": "[variables('nodes')]",
             "type": "array"
         }
     }
