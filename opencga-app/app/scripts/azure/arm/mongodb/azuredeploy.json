@@ -112,10 +112,10 @@
         {
           "namespace": "mongo",
           "members": {
-            "uniqueName": {
+            "cloud-init-transform": {
               "parameters": [
                 {
-                  "name": "cloud-init-transform",
+                  "name": "cloud-init",
                   "type": "string"
                 }
               ],
