@@ -116,7 +116,7 @@
               "parameters": [
                 {
                   "name": "cloud-init",
-                  "type": "string"
+                  "type": "array"
                 }
               ],
               "output": {
