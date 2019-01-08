@@ -117,7 +117,7 @@
               "parameters": [
                 {
                   "name": "cloudinit",
-                  "type": "string"
+                  "type": "array"
                 },
                 {
                     "name": "index",
