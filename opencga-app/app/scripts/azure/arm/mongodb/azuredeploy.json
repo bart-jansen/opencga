@@ -121,7 +121,7 @@
                 },
                 {
                     "name": "index",
-                    "type": "integer"
+                    "type": "string"
                   }
               ],
               "output": {
@@ -218,7 +218,7 @@
                 },
                 "osProfile": {
                     "computerName": "[concat(variables('vmName'), copyIndex())]",
-                    "customData": "[mongo.cloudinittransform(variables('cloudinit'),copyIndex())]",
+                    "customData": "[mongo.cloudinittransform(variables('cloudinit'),string(copyIndex()))]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
